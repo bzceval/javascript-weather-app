@@ -21,6 +21,7 @@ const getWeatherDataFromApi = async () => {
     const response = await axios.get(url);
     // const response = await axios(url);
     console.log("response", response);
+    //Object destructuring 
     const { main, name, sys, weather } = response.data;
 
     const cityListItems = list.querySelectorAll(".city");

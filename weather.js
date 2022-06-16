@@ -14,10 +14,17 @@ form.addEventListener("submit", (e) =>{
 const getWeatherDataFromApi = () =>{
     // alert("http request gone");
     // input.value = "";
-    let apikey = DecryptStringAES(localStorage.getItem("apiKey"));
+    let tokenKey = DecryptStringAES(localStorage.getItem("apiKey"));
     // console.log(apikey);
     let inputVal = input.value;
-    let url = `https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
-    `
+    let unitType = "metric";
+    let lang = "tr";
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=${inputVal}&appid=${tokenKey}&units=${unitType}&lang=${lang}`;
+    try {
+        
+    } 
+    catch (error) {
+        
+    }
     form.reset();
 }

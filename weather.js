@@ -19,16 +19,33 @@ const getWeatherDataFromApi = async() =>{
     let inputVal = input.value;
     let unitType = "metric";
     let lang = "tr";
-    let url = `https://api.openweathermap.org/data/2.5/weather?q=${inputVal}&appid=${tokenKey}&units=${unitType}&lang=${lang}`;
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=${inputVal}&appid=${tokenKey}&units=${unitType}`;
 
     try {
         // const response = await fetch.get(url).then(response => response.json());
         //axios.get(url) == axios(url)
         const response = await axios(url);
         const { name, main, sys, weather } = response.data;
-        console.log(response.data);
+        // console.log(response.data);
         let iconUrl = `http://openweathermap.org/img/wn/${weather[0].icon}@2x.png`;
 
+        //forEach => array + nodeList
+        //map, filter, reduce => array
+        const cityListItems = list.querySelectorAll(".city");
+        const cityListItemsArray = Array.from(cityListItems);
+        if(cityListItemsArray.length > 0){
+            const filteredArray = cityListItemsArray.filter(cityCard => cityCard.querySelector("span").innerText == name);
+            // console.log(cityListItemsArray.length);
+            if(filteredArray.length > 0){
+                msg.innerText = `You already know the weather for ${name}, Please search for another city 😉`;
+                setTimeout(()=>{
+                    msg.innerText = "";
+                }, 5000);
+                form.reset();
+                return;
+            }
+        }
+        // else{}
         const createdLi = document.createElement("li");
         createdLi.classList.add("city");
         const createdLiInnerHTML = 
@@ -43,11 +60,14 @@ const getWeatherDataFromApi = async() =>{
             </figure>`;
         createdLi.innerHTML = createdLiInnerHTML;
         //append vs. prepend
-        list.append(createdLi);
+        list.prepend(createdLi);
 
     } 
     catch (error) {
-        
+        msg.innerText = error;
+        setTimeout(()=>{
+            msg.innerText = "";
+        }, 5000);
     }
     form.reset();
 }

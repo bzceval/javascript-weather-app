@@ -4,22 +4,22 @@ const msg = document.querySelector("span.msg");
 const list = document.querySelector(".ajax-section .cities");
 
 localStorage.setItem("apiKey", EncryptStringAES("4d8fb5b93d4af21d66a2948710284366"));
+localStorage.setItem("apiKey", "RAPAIooyOVFdRNn7gPi6i8vUp3OJvy0Np5wgMGgNO0a2a258kya95/arqJmhPrWc");
 
 form.addEventListener("submit", (e) =>{
     e.preventDefault();
     getWeatherDataFromApi();
 });
 
-// function getWeatherDataFromApi(){}
 const getWeatherDataFromApi = async() =>{
-    // alert("http request gone");
+    // alert("http request is gone");
     // input.value = "";
     const tokenKey = DecryptStringAES(localStorage.getItem("apiKey"));
     // console.log(apikey);
-    let inputVal = input.value;
-    let unitType = "metric";
-    let lang = "tr";
-    let url = `https://api.openweathermap.org/data/2.5/weather?q=${inputVal}&appid=${tokenKey}&units=${unitType}`;
+    const inputVal = input.value;
+    const unitType = "metric";
+    const lang = "tr";
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${inputVal}&appid=${tokenKey}&units=${unitType}`;
 
     try {
         // const response = await fetch(url).then(response => response.json());
@@ -31,12 +31,15 @@ const getWeatherDataFromApi = async() =>{
         const iconUrlAWS = `https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${weather[0].icon}.svg`;
         //forEach => array + nodeList
         //map, filter, reduce => array
-        const cityListItems = list.querySelectorAll(".city");
-        const cityListItemsArray = Array.from(cityListItems);
-        if(cityListItemsArray.length > 0){
-            const filteredArray = cityListItemsArray.filter(cityCard => cityCard.querySelector("span").innerText == name);
+        const cityNameSpans = list.querySelectorAll(".city span");
+        const cityNameSpansArray = Array.from(cityNameSpans)
+        console.log(cityNameSpansArray);
+        // const cityListItemsArray = Array.from(cityListItems).map(x => x.innerText);
+        if(cityNameSpansArray.length > 0){
+            const filteredArray = cityNameSpansArray.filter(span => span.innerText == name);
             // console.log(cityListItemsArray.length);
             if(filteredArray.length > 0){
+            // if(cityListItemsArray.includes(name)){
                 msg.innerText = `You already know the weather for ${name}, Please search for another city 😉`;
                 setTimeout(()=>{
                     msg.innerText = "";
@@ -63,26 +66,26 @@ const getWeatherDataFromApi = async() =>{
         list.prepend(createdLi);
 
         //Capturing
-        // createdLi.addEventListener("click", (e) => {
-        //     if(e.target.tagName == "IMG"){
-        //         e.target.src = (e.target.src == iconUrl) ? iconUrlAWS : iconUrl  
-        //     }
+        createdLi.addEventListener("click", (e) => {
+            if(e.target.tagName == "IMG"){
+                e.target.src = (e.target.src == iconUrl) ? iconUrlAWS : iconUrl  
+            }
             
-        // });
+        });
 
         //Bubbling
         //When an event happens on an element, it first runs the handlers on it, then on its parent, then all the way up on other ancestors.
 
-        createdLi.addEventListener("click", (e) => {
-            alert(`${e.target.tagName} element is clicked!`);
-            window.location.href = "https://clarusway.com";
-        });
+        // createdLi.addEventListener("click", (e) => {
+        //     alert(`${e.target.tagName} element is clicked!`);
+        //     window.location.href = "https://clarusway.com";
+        // });
 
         //Stop the Bubbling => e.stopPropagation();
-        document.querySelector("figure").addEventListener("click", (e) => {
-            alert(`${e.target.tagName} element is clicked!`);
-            e.stopPropagation();
-        });
+        // document.querySelector("figure").addEventListener("click", (e) => {
+        //     alert(`${e.target.tagName} element is clicked!`);
+        //     e.stopPropagation();
+        // });
 
 
     } 
